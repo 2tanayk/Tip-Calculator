@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         val stringInTextField = binding.costOfService.text.toString()
 
         if (!stringInTextField.isEmpty()) {
-            val cost = stringInTextField.toDouble()
+            val cost = stringInTextField.toDoubleOrNull()
             val selectedId = binding.tipOptions.checkedRadioButtonId
 
             val tipPercentage = when (selectedId) {
@@ -36,16 +36,19 @@ class MainActivity : AppCompatActivity() {
                 R.id.option_eighteen_percent -> 0.18
                 else -> 0.15
             }
+            if (cost != null) {
+                var tip = tipPercentage * cost
 
-            var tip = tipPercentage * cost
-            val roundUp = binding.roundUpSwitch.isChecked
 
-            if (roundUp) {
-                tip = ceil(tip)
+                val roundUp = binding.roundUpSwitch.isChecked
+
+                if (roundUp) {
+                    tip = ceil(tip)
+                }
+
+                val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
+                binding.tipResult.text = formattedTip
             }
-
-            val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
-            binding.tipResult.text = formattedTip
         } else {
             Toast.makeText(this, "Cost field empty!", Toast.LENGTH_SHORT).show()
         }
