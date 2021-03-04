@@ -3,7 +3,9 @@ package com.myapp.tipcalculator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
+import com.google.android.material.textfield.TextInputEditText
 import com.myapp.tipcalculator.databinding.ActivityMainBinding
 import java.text.NumberFormat
 import java.util.logging.Logger
@@ -24,8 +26,8 @@ class MainActivity : AppCompatActivity() {
     fun calculateTip() {
 //        val Log = Logger.getLogger(MainActivity::class.java.name)
 //        Log.warning(binding.costOfService.text.toString().length.toString())
-
-        val stringInTextField = binding.costOfService.text.toString()
+//        val c: TextInputEditText =binding.costOfServiceEditText
+        val stringInTextField = binding.costOfServiceEditText.text.toString()
 
         if (!stringInTextField.isEmpty()) {
             val cost = stringInTextField.toDoubleOrNull()
@@ -48,6 +50,8 @@ class MainActivity : AppCompatActivity() {
 
                 val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
                 binding.tipResult.text = formattedTip
+            } else {
+                Toast.makeText(this, "Enter a valid no. !", Toast.LENGTH_SHORT).show()
             }
         } else {
             Toast.makeText(this, "Cost field empty!", Toast.LENGTH_SHORT).show()
